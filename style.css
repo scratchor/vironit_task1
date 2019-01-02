@@ -1,0 +1,63 @@
+
+.cash_mashine{
+  background-color: grey;
+  height: 100px;
+  width: 100px;
+  border: 2px solid black;
+  position: absolute;
+}
+
+#atm1{
+  top: 100px;
+  left: 10px;
+}
+
+#atm2{
+  top: 100px;
+  left: 600px;
+}
+
+.light1{
+  background-color: white;
+  border-radius: 200px;
+  border: 2px solid black;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 35px;
+}
+
+.light2{
+  background-color: white;
+  border-radius: 200px;
+  border: 2px solid black;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 625px;
+}
+
+.man{
+  border: 30px solid transparent;
+  border-bottom: 43px solid #186318;
+  display: block;
+  width: 0;
+  height: 0;
+  position: relative;
+  top: 200px;
+  left: 312.5px;
+}
+
+.manInAtm1{
+  position: absolute;
+  top: 175px;
+  left: 30px;
+}
+
+.manInAtm2{
+  position: absolute;
+  top: 175px;
+  left: 620px;
+}
