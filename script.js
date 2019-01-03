@@ -21,7 +21,7 @@ const circumstance = {
       var man = new Man(div);
       queue.push(man);
       this['men in queue']++;
-      }, Math.random() * 9000);
+      }, Math.random() * 7000);
   },
   stopMakeMan: function () {
     if (inetrvalId) {
@@ -50,6 +50,7 @@ function Man(div) {
       const field = document.querySelector('.field');
       field.removeChild(div);
       atm.switchLight();
+      atm.addClient();
     }, this.time);    
   };
   this.getReady = function () {
@@ -80,6 +81,10 @@ const atm1 = {
       this.greenlight = true;
     }
   },
+  addClient: function() {
+    const div = document.getElementById('counter1');    
+    div.textContent = `${+div.textContent + 1}`;    
+  },
 }
  
 
@@ -94,6 +99,10 @@ const atm2 = {
       light1.style.backgroundColor = 'green';
       this.greenlight = true;
     }
+  },
+  addClient: function() {
+    const div = document.getElementById('counter2');    
+    div.textContent = `${+div.textContent + 1}`;    
   },
 }
 

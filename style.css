@@ -5,6 +5,7 @@
   width: 100px;
   border: 2px solid black;
   position: absolute;
+  /* line-height: 100px; */
 }
 
 #atm1{
@@ -18,7 +19,7 @@
 }
 
 .light1{
-  background-color: white;
+  background-color: green;
   border-radius: 200px;
   border: 2px solid black;
   height: 50px;
@@ -29,7 +30,7 @@
 }
 
 .light2{
-  background-color: white;
+  background-color: green;
   border-radius: 200px;
   border: 2px solid black;
   height: 50px;
@@ -61,3 +62,18 @@
   top: 175px;
   left: 620px;
 }
+
+.quantity{
+  width: 40px;
+  height: 20px;
+  background-color: black;
+  z-index: 2;
+  text-align: center;
+  position: relative;
+  top: 40%;
+  left: 30%;
+  border: 1px solid #ffffff; 
+  color: white;
+  line-height: 20px; 
+}
+
