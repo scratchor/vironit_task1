@@ -22,7 +22,7 @@ function ready() {
         console.log('ATM1: Очередь уменьшилась на 1 человека');
         person.makePayment(atm1, 1);
         render.atm1.addClient();
-        atm1.isfree = false;
+        atm1.isfree = false; // лучше бы метод по изменению состояния, в котором эмитить соответствующее событие
       }
     }, 500);
   });
@@ -44,6 +44,8 @@ function ready() {
   setInterval(atm1.checkStatus.bind(atm1), 1000);
   setInterval(atm2.checkStatus.bind(atm2), 1000);  
 }
+
+//atm1.on и atm2.on делают практически тоже самое, почему бы коллбек не вынести в отдельную функцию с параметрами?
 
 const controller = {
 
