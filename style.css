@@ -52,12 +52,22 @@
 }
 
 .manInAtm1{
+  border: 30px solid transparent;
+  border-bottom: 43px solid #186318;
+  display: block;
+  width: 0;
+  height: 0;
   position: absolute;
   top: 175px;
   left: 30px;
 }
 
 .manInAtm2{
+  border: 30px solid transparent;
+  border-bottom: 43px solid #186318;
+  display: block;
+  width: 0;
+  height: 0;
   position: absolute;
   top: 175px;
   left: 620px;
