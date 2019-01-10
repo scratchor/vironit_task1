@@ -3,30 +3,8 @@ const atm2 = new Atm('atm2');
 
 const emitter = new EventEmitter();
 
-/* const atm1Component = new AtmComponent('div', 'cash_mashine', 'atm1', 'atm1Component');
-const atm2Component = new AtmComponent('div', 'cash_mashine', 'atm2', 'atm2Component');
-
-const light1Component = new Light('div', 'light', 'light1', 'light1Component');
-const light2Component = new Light('div', 'light', 'light2', 'light2Component');
-
-const counter1Component = new Counter('div', 'counter', 'counter1', 'counter1Component');
-const counter2Component = new Counter('div', 'counter', 'counter2', 'counter2Component');
-
-const delButComponent1 = new DelButComponent('div', 'fas', 'delBut1', 'counter1Component');
-const delButComponent2 = new DelButComponent('div', 'fas', 'delBut2', 'counter1Component'); */
-
-
 const queue1 = new Queue();
 
-/* function listener () {
-  let cashMasines = document.querySelectorAll('.cash_mashine');
-  cashMasines = [].slice.call(cashMasines);
-  cashMasines.forEach(e => e.addEventListener('click', () => {
-    console.dir(event.currentTarget.id[3])    
-  }));
-}
-
-  listener(); */
 
 document.addEventListener("DOMContentLoaded", ready);
 
@@ -158,7 +136,7 @@ const controller = {
       controller.atmComponents[2].push(lightComponent);
       controller.atmComponents[3].push(delButComponent);
       controller.atms.push(atm);
-      controller.addAtmsEvents(atm);
+      controller.addAtmsEvents(atm);      
       emitter.emit('drawCahsMasine', x);      
     },
     
@@ -172,8 +150,11 @@ const controller = {
         cashMasine.appendChild(delbut);
         cashMasine.appendChild(counter);
         cashMasine.appendChild(light);        
-        atmWrapper.appendChild(cashMasine);      
-    },
+        atmWrapper.appendChild(cashMasine);
+        cashMasine.addEventListener('click', () => {
+          emitter.emit('delAtm', cashMasine.id[3]);
+      });
+    },  
 
     deleteCashMashineFromDom: function(idNum) {
       const atmWrapper = document.querySelector('.atm_wrapper');
