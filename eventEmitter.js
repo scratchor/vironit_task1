@@ -19,19 +19,7 @@ EventEmitter.prototype.on  = function(event, func) {
     }
   };
 
-  Atm.prototype = Object.create(EventEmitter.prototype);
-  Atm.prototype.constructor = Atm;
 
-  function Atm(name) {
-    this.name = name;
-    this.served = 0;
-    this.isfree = true;
-    EventEmitter.call(this);     
-  };
-
-  Atm.prototype.checkStatus = function() {      
-      this.isfree ? this.emit('free') : this.emit('busy');                   
-  };
 
 
 

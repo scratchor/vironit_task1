@@ -4,23 +4,23 @@ const render = {
       const div = document.getElementById('counter1');    
       div.textContent = `${+div.textContent + 1}`;    
     },
-    switchLightRed: function() {
-      const light1 = document.querySelector('.light1');
-      light1.style.backgroundColor = 'red';      
+    switchLightRed: function(x) {
+      const light = document.getElementById(`light${x}`);
+      light.style.backgroundColor = 'red';      
     },
-    switchLightGreen: function() {
-      const light1 = document.querySelector('.light1');
-      light1.style.backgroundColor = 'green';      
+    switchLightGreen: function(x) {
+      const light = document.getElementById(`light${x}`);
+      light.style.backgroundColor = 'green';      
     },    
   },
   atm2: {
-    switchLightRed: function() {
-      const light2 = document.querySelector('.light2');
-      light2.style.backgroundColor = 'red';        
+    switchLightRed: function(x) {
+      const light = document.getElementById(`light${x}`);
+      light.style.backgroundColor = 'red';        
     },
-    switchLightGreen: function() {
-      const light2 = document.querySelector('.light2');
-      light2.style.backgroundColor = 'green';        
+    switchLightGreen: function(x) {
+      const light = document.getElementById(`light${x}`);
+      light.style.backgroundColor = 'green';        
     },
     addClient: function() {
       const div = document.getElementById('counter2');    
@@ -36,16 +36,20 @@ const render = {
     },
     movePerson: function(x) {
       const div = document.querySelector('.man');
-      if(div){      
-      div.classList.add(`manInAtm${x}`);
+      const field = document.querySelector('.field');
+      const cashMashine = document.getElementById(`${x}`);
+      if(div){
+      field.removeChild(div);
+      cashMashine.appendChild(div);      
+      div.classList.add(`manInAtm`);
       div.classList.remove('man');
       }      
     },
     removePerson: function(x){
-      const div = document.querySelector(`.manInAtm${x}`);
+      const cashMashine = document.getElementById(`${x}`);
+      const div = cashMashine.querySelector(`.manInAtm`);
       if(div) {      
-        const field = document.querySelector('.field');
-        field.removeChild(div);
+        cashMashine.removeChild(div);
       }      
     }
   },

@@ -5,25 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="./eventEmitter.js" asynk></script>    
-    <script src="./queue.js" asynk></script>
-    <script src="./person.js" asynk></script>
-    <script src="./render.js" asynk></script>
-    <script src="./main.js" asynk></script>
+    <script src="./eventEmitter.js" defer></script>
+    <script src="./atm.js" defer></script>    
+    <script src="./queue.js" defer></script>
+    <script src="./person.js" defer></script>
+    <!-- <script src="./render.js" defer></script> -->
+    <script src="./component.js" defer></script>
+    <script src="./main.js" defer></script>    
     <!-- <script src="./scriptMVC.js" asynk></script> -->
     <!-- <script src="./script.js" asynk></script> -->
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body>
     <div class="field">
-        <div class="cash_mashine" id="atm1">
-            <div class="quantity" id="counter1">1</div>
+        <div class="buttons">
+            <input type="text" class="input1" size ='10'>
+            <input type="text" class="input2" size ='10' autofocus>
+            <button class="buttonCreateAtm">Create ATM</button>
         </div>
-        <div class="cash_mashine" id="atm2">
-            <div class="quantity" id="counter2">1</div>
-        </div>
-        <div class="light1"></div>
-        <div class="light2"></div>        
+        <div class="atm_wrapper">
+<!--             <div class="cash_mashine" id="atm1">
+                <i class="fas fa-times fa-2x"></i>
+                <div class="counter" id="counter1">1</div>
+                <div class="light"></div>
+            </div>
+            <div class="cash_mashine" id="atm2">
+                <i class="fas fa-times fa-2x"></i>
+                <div class="counter" id="counter2">1</div>
+                <div class="light"></div>  
+            </div>      -->     
+        </div>        
     </div>
 </body>
 </html>

@@ -5,7 +5,7 @@ function ready() {
   controller.runGetReady();  
 }
 
-
+// constructor
 function Man(div) {
   this.time = Math.random() * 10000;
   this.div = div;
@@ -35,7 +35,7 @@ function Man(div) {
   };
 }
 
-    
+// contoller in mvc model    
 const controller = {
   inetrvalId: undefined,
 
@@ -91,7 +91,7 @@ const controller = {
 
 }
 
-
+// model in mvc model  
 const model = {
   queue: [],
   atm1Greenlight: true,
@@ -129,7 +129,7 @@ const model = {
 
 
 
-
+// view in mvc model  
 const view = {
   atm1: {
     addClient: function() {
