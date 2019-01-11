@@ -38,6 +38,7 @@ const controller = {
   endTime:  4000,
 
   addAtmsEvents: function (obj) {
+    // а какой смысл было тогда создавать Person, Light и Count как классы, если ты используешь их без контекста?
     obj.on('free', () => Person.prototype.removePerson(obj.name));
     obj.on('free', () => Light.prototype.switchLightGreen(obj.num));
     obj.on('free', () => {
@@ -67,7 +68,8 @@ const controller = {
       queue1.emit('add');
       setTimeout(() => {
         controller.drawPerson();
-      }, 500); 
+      }, 500); // а почему нужна еще дополнительная задержка в полсекунды?
+      // Math.random() * 1 ? это что делает?)
     }, (Math.random() *1 + controller.starTime) + controller.endTime);
   },
   
@@ -131,6 +133,8 @@ const controller = {
       const counterComponent = new Counter('div', 'counter', `counter${x}`, `counter${x}Component`, '0');
       const lightComponent = new Light('div', 'light', `light${x}`, `light${x}Component`);
       const delButComponent = new DelButComponent('i', ['fas', 'fa-times', 'fa-2x'], `delBut${x}`, `DelBut${x}Component`);
+      // в принципе твоему контроллеру достаточно было бы создать просто atmComponent.
+      // а внутри atmComponent уже создавать вложенные компоненты для него
       controller.atmComponents[0].push(atmComponent);
       controller.atmComponents[1].push(counterComponent);
       controller.atmComponents[2].push(lightComponent);

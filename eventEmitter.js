@@ -20,6 +20,7 @@ EventEmitter.prototype.on  = function(event, func) {
   };
 
 
+  // что-то не пойму, 2 раза класс Atm описан?
   Atm.prototype = Object.create(EventEmitter.prototype);
   Atm.prototype.constructor = Atm;
 

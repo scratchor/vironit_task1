@@ -20,6 +20,9 @@ Atm.prototype.checkStatus = function() {
     this.isfree ? this.emit('free') : this.emit('busy');                   
 };
 
+// зачем obj? почему не использовать this
+// тут либо до setTimeout сохранить в замыкании, например var self = this
+// либо .bind(this) вместо obj
 Atm.prototype.changeStatus = function(time, obj) {
   if(time) {
     setTimeout(function() {
@@ -28,6 +31,7 @@ Atm.prototype.changeStatus = function(time, obj) {
       } else {
         this.isfree = true;
       };
+      // выше используешь this, а тут obj :). зачем тогда bind делал?
       obj.checkStatus(); 
     }.bind(obj), time);
   } else {

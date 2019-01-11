@@ -9,8 +9,13 @@ function Component(html, elClass, id, name, textContent) {
 }
 
 Component.prototype.createElem = function() {
+  // а что хранится в this.html. на сколько знаю createElement принимает параметром имя тэга
+  // https://developer.mozilla.org/ru/docs/DOM/document.createElement
   const elem = document.createElement(this.html);
   if(this.class) {
+    // если ты хотел проверить является ли массивом this.class,
+    // то правильнее было бы использовать Array.isArray(this.class)
+    // ну и лучше не использовать зарезервированные ключевые слова как имена переменных
     if(typeof(this.class) === 'object') {
       this.class.forEach(e => elem.classList.add(e));
     } else {
