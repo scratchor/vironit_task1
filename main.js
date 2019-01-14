@@ -1,6 +1,3 @@
-const atm1 = new Atm('atm1');
-const atm2 = new Atm('atm2');
-
 const emitter = new EventEmitter();
 
 const queue1 = new Queue();
@@ -13,11 +10,10 @@ function ready() {
   emitter.on('drawCahsMasine', (x) => controller.drawCashMashine(x));  
   controller.createCashMashine();
   controller.createCashMashine();
-  controller.atms.forEach(e => controller.addAtmsEvents(e));
+  //controller.atms.forEach(e => controller.addAtmsEvents(e));
   controller.addOnCreate();
   controller.addCreateListener();
   controller.addOnDelete();
-  controller.addDeleteListener();
   controller.addOnInput();
   controller.addInputListener();
   controller.drawPerson();  
@@ -34,8 +30,8 @@ const controller = {
   ],
   nameNum: 1,
   inetrvalId: undefined,
-  starTime: 2000,
-  endTime:  4000,
+  starTime: 2,
+  endTime:  4,
 
   addAtmsEvents: function (obj) {
     obj.on('free', () => Person.prototype.removePerson(obj.name));
@@ -49,10 +45,9 @@ const controller = {
           console.log(`ATM${obj.num}: Очередь уменьшилась на 1 человека`);
           Counter.prototype.addClient(obj.num);
           obj.addServedClient();          
-          obj.changeStatus(person.time, obj);
-          console.log(person.time);
-        }, 1000);              
-        };    
+          obj.changeStatus(person.time, obj);          
+          }, 1000);     
+        };     
     });
     obj.on('busy', () => setTimeout(function() {
       Light.prototype.switchLightRed(obj.num);
@@ -68,7 +63,7 @@ const controller = {
       setTimeout(() => {
         controller.drawPerson();
       }, 500); 
-    }, (Math.random() *1 + controller.starTime) + controller.endTime);
+    }, (Math.random() *1 + controller.starTime * 1000) + controller.endTime * 1000);
   },
   
   addOnInput: function() {
@@ -97,8 +92,22 @@ const controller = {
 
     addOnDelete: function() {
       emitter.on('delAtm', (idNum) => {
-        controller.deleteCashMashineFromDom(idNum);
-        controller.deleteCashMashineFromLogic(idNum);
+        console.log(`Delete ATM${idNum}`);
+        const atm = controller.atms.filter(e => e.name === `atm${idNum}`)[0];
+        if(atm.isfree && atm.served === 0) {
+          console.log(`ATM${idNum} was free and quickly deleted`)
+          controller.deleteCashMashineFromDom(idNum);
+          controller.deleteCashMashineFromLogic(idNum);
+        } else {
+          atm.comandToStop = true;        
+          this.inetrvalId = setInterval(() => {
+            if(atm.confirmTostop) {
+              controller.deleteCashMashineFromDom(idNum);
+              controller.deleteCashMashineFromLogic(idNum);
+              clearInterval(this.inetrvalId);
+            };
+          }, 10);
+        };
       });
     },
     

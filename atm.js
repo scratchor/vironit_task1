@@ -7,13 +7,14 @@ function Atm(name) {
   this.name = name;
   this.num = +this.name[3];
   this.served = 0;
-  this.isfree = true;        
+  this.isfree = true;
+  this.comandToStop = false;
+  this.confirmTostop = false;        
 };
 
 Atm.prototype.addServedClient = function() {      
   this.served++;                  
 };
-
 
 
 Atm.prototype.checkStatus = function() {      
@@ -28,8 +29,14 @@ Atm.prototype.changeStatus = function(time, obj) {
       } else {
         this.isfree = true;
       };
-      obj.checkStatus(); 
-    }.bind(obj), time);
+      if(this.comandToStop) {
+        this.confirmTostop = true;
+        console.log(`Confirm to stop from ${this.name}`)
+        return;
+      }
+      obj.checkStatus();
+      console.log(obj === this); 
+    }.bind(this), time);
   } else {
     if(this.isfree) {
       this.isfree = false;
