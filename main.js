@@ -33,7 +33,7 @@ const controller = {
   starTime: 2,
   endTime:  4,
 
-  addAtmsEvents: function (obj) {
+  addAtmsEvents: function (obj) {    
     obj.on('free', () => Person.prototype.removePerson(obj.name));
     obj.on('free', () => Light.prototype.switchLightGreen(obj.num));
     obj.on('free', () => {

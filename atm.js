@@ -21,6 +21,7 @@ Atm.prototype.checkStatus = function() {
     this.isfree ? this.emit('free') : this.emit('busy');                   
 };
 
+
 Atm.prototype.changeStatus = function(time, obj) {
   if(time) {
     setTimeout(function() {

@@ -5,7 +5,7 @@ function EventEmitter() {
 };
 
 EventEmitter.prototype.on  = function(event, func) {
-    !this.eventTable[event] ? this.eventTable[event] = [] : true; // тернарник лучше использовать для получения значений... в этом случае более читабельно будет if then else
+    !this.eventTable[event] ? this.eventTable[event] = [] : true; 
     this.eventTable[event].push(func);
   };
 
