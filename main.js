@@ -2,16 +2,13 @@ const emitter = new EventEmitter();
 
 const queue1 = new Queue();
 
-
 document.addEventListener("DOMContentLoaded", ready);
 
 function ready() {
   queue1.on('add', () => controller.atms.forEach(e => queue1.checkClient() && e.isfree ? e.checkStatus() : false));  
-  emitter.on('drawCahsMasine', (x) => controller.drawCashMashine(x));  
-  controller.createCashMashine();
-  controller.createCashMashine();
-  //controller.atms.forEach(e => controller.addAtmsEvents(e));
   controller.addOnCreate();
+  emitter.emit('createAtm');
+  emitter.emit('createAtm');
   controller.addCreateListener();
   controller.addOnDelete();
   controller.addOnInput();
@@ -28,42 +25,55 @@ const controller = {
     [],
     [],
   ],
+  personNum: 1,
   nameNum: 1,
-  inetrvalId: undefined,
   starTime: 2,
   endTime:  4,
 
   addAtmsEvents: function (obj) {    
-    obj.on('free', () => Person.prototype.removePerson(obj.name));
-    obj.on('free', () => Light.prototype.switchLightGreen(obj.num));
+    obj.on('free', () => {
+      let person = obj.deleteOnService();
+      if(person){
+        person.updateParams({element: null});
+      };
+    });
+    obj.on('free', () => {
+      let light = controller.atmComponents[3].find(e => e.params.id === `light${obj.num}`);
+      light.updateParams({backgroundColor: 'green'});
+    });
     obj.on('free', () => {
         const person = queue1.getClient();
         if(person) {
+          obj.addOnService(person);
           obj.changeStatus(undefined, obj);  
-          setTimeout(function() {       
-          Person.prototype.movePerson(obj.name);
+          setTimeout(function() {                
+          person.updateParams({elClass: 'manInAtm', parent: document.getElementById(`atm${obj.num}`)});
           console.log(`ATM${obj.num}: Очередь уменьшилась на 1 человека`);
-          Counter.prototype.addClient(obj.num);
+          let counter = controller.atmComponents[2].find(e => e.params.id === `counter${obj.num}`);
+          counter.updateParams({textContent: `${+counter.params.textContent + 1}`});
           obj.addServedClient();          
           obj.changeStatus(person.time, obj);          
           }, 1000);     
         };     
     });
     obj.on('busy', () => setTimeout(function() {
-      Light.prototype.switchLightRed(obj.num);
+      let light = controller.atmComponents[3].find(e => e.params.id === `light${obj.num}`);
+      light.updateParams({backgroundColor: 'red'});
     }, 1000)); 
   },
 
   drawPerson: function() {
     setTimeout(() => {
-      let person = new Person();
+      let person = new Person(controller.personNum);
+      controller.personNum++
       queue1.addClient(person);
-      Person.prototype.makePerson();
+      //person.makePerson();
+      person.updateParams();         
       queue1.emit('add');
       setTimeout(() => {
         controller.drawPerson();
       }, 500); 
-    }, (Math.random() *1 + controller.starTime * 1000) + controller.endTime * 1000);
+    }, (Math.random() * controller.starTime * 1000) + controller.endTime * 1000);
   },
   
   addOnInput: function() {
@@ -91,32 +101,38 @@ const controller = {
     },
 
     addOnDelete: function() {
-      emitter.on('delAtm', (idNum) => {
-        console.log(`Delete ATM${idNum}`);
+      emitter.on('delAtm', (x) => {
+        console.log(`Delete ATM${x}`);
+        const idNum = +event.currentTarget.id.split('').slice(3, event.currentTarget.id.length).join('');
+        let cashMasine = document.getElementById(`atm${idNum}`);
+        cashMasine.removeEventListener('click', controller.deleteListenerHandler);
         const atm = controller.atms.filter(e => e.name === `atm${idNum}`)[0];
         if(atm.isfree && atm.served === 0) {
           console.log(`ATM${idNum} was free and quickly deleted`)
           controller.deleteCashMashineFromDom(idNum);
           controller.deleteCashMashineFromLogic(idNum);
         } else {
+          console.log('Обработчик дал команду на удаление');
           atm.comandToStop = true;        
-          this.inetrvalId = setInterval(() => {
+          const timerId = setInterval(() => {
             if(atm.confirmTostop) {
               controller.deleteCashMashineFromDom(idNum);
-              controller.deleteCashMashineFromLogic(idNum);
-              clearInterval(this.inetrvalId);
+              controller.deleteCashMashineFromLogic(idNum);              
+              clearInterval(timerId);
+              console.log('обработчик удалён');
             };
-          }, 10);
+          }, 10);         
         };
       });
     },
     
-    addDeleteListener: function() {
-      let cashMasines = document.querySelectorAll('.cash_mashine');
-      cashMasines = [].slice.call(cashMasines);
-      cashMasines.forEach(e => e.addEventListener('click', () => {
-        emitter.emit('delAtm', e.id[3]);
-      }));
+    addDeleteListener: function(x) {
+      let cashMasine = document.getElementById(`atm${x}`)
+      cashMasine.addEventListener('click', controller.deleteListenerHandler);
+    },
+
+    deleteListenerHandler: function(x) {
+      emitter.emit('delAtm', x);
     },
 
     addOnCreate: function() {
@@ -136,44 +152,35 @@ const controller = {
       const x = controller.nameNum;
       controller.nameNum++;
       const atm = new Atm(`atm${x}`);
-      const atmComponent = new AtmComponent('div', 'cash_mashine', `atm${x}`, `atm${x}Component`);
-      const counterComponent = new Counter('div', 'counter', `counter${x}`, `counter${x}Component`, '0');
-      const lightComponent = new Light('div', 'light', `light${x}`, `light${x}Component`);
-      const delButComponent = new DelButComponent('i', ['fas', 'fa-times', 'fa-2x'], `delBut${x}`, `DelBut${x}Component`);
+      const atmComponent = new AtmComponent(x);
+      atmComponent.updateParams();
+      const counterComponent = new Counter(x);
+      const lightComponent = new Light(x);
+      const delButComponent = new DelButComponent(x);
       controller.atmComponents[0].push(atmComponent);
-      controller.atmComponents[1].push(counterComponent);
-      controller.atmComponents[2].push(lightComponent);
-      controller.atmComponents[3].push(delButComponent);
+      controller.atmComponents[1].push(delButComponent);
+      controller.atmComponents[2].push(counterComponent);
+      controller.atmComponents[3].push(lightComponent);
+      delButComponent.updateParams();
+      counterComponent.updateParams();
+      lightComponent.updateParams();
       controller.atms.push(atm);
       controller.addAtmsEvents(atm);      
-      emitter.emit('drawCahsMasine', x);      
+      controller.addDeleteListener(x);
     },
-    
-
-    drawCashMashine: function (i) {
-      const atmWrapper = document.querySelector('.atm_wrapper');      
-        const cashMasine = controller.atmComponents[0][i-1].createElem();
-        const counter = controller.atmComponents[1][i-1].createElem();
-        const light = controller.atmComponents[2][i-1].createElem();
-        const delbut = controller.atmComponents[3][i-1].createElem();
-        cashMasine.appendChild(delbut);
-        cashMasine.appendChild(counter);
-        cashMasine.appendChild(light);        
-        atmWrapper.appendChild(cashMasine);
-        cashMasine.addEventListener('click', () => {
-          emitter.emit('delAtm', cashMasine.id[3]);
-      });
-    },  
 
     deleteCashMashineFromDom: function(idNum) {
-      const atmWrapper = document.querySelector('.atm_wrapper');
-      const cashMasine = document.getElementById(`atm${idNum}`);
-      atmWrapper.removeChild(cashMasine);
+      const atmComponent = controller.atmComponents[0].find(e => e.params.id === `atm${idNum}`);
+      atmComponent.updateParams({element: null});
     },
 
-    deleteCashMashineFromLogic: function(idNum) {
+    deleteCashMashineFromLogic: function(idNum) {      
       const atm = controller.atms.filter(e => e.name === `atm${idNum}`)[0];
-      controller.atms = controller.atms.filter(e => e !== atm);
+      const i = controller.atms.indexOf(atm);
+      controller.atms = controller.atms.filter(e => e !== atm);      
+      controller.atmComponents[0].splice(i, 1);      
+      controller.atmComponents[1].splice(i, 1);      
+      controller.atmComponents[2].splice(i, 1);
+      controller.atmComponents[3].splice(i, 1);
     },
-
-}
+};

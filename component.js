@@ -1,30 +1,61 @@
 
 //class Component
-function Component(html, elClass, id, name, textContent) {
-  this.html = html;
-  this.class = elClass;
-  this.id = id;
-  this.name = name;
-  this.textContent = textContent;
+function Component(elClass, id, parentId, textContent, backColor) {
+
+  this.params = {
+    element: 'div',
+    elClass: elClass,
+    previousClass: this.params.elClass,
+    id: id,
+    parent: document.getElementById(`${parentId}`),
+    textContent: textContent,
+    backgroundColor: backColor,    
+  };
+
 }
 
-Component.prototype.createElem = function() {
-  const elem = document.createElement(this.html);
-  if(this.class) {
-    if(typeof(this.class) === 'object') {
-      this.class.forEach(e => elem.classList.add(e));
+Component.prototype.updateParams = function(newParams) {
+  Object.assign(this.params, newParams);
+  this.makeElem();  
+};
+
+
+Component.prototype.makeElem = function() {
+  let elem = document.getElementById(`${this.params.id}`);
+  if(!this.params.element){
+    elem.outerHTML = "";
+    delete elem;
+    return;
+  };
+  if(elem) {
+    elem.outerHTML = "";
+    delete elem;
+  }  
+  elem = document.createElement(this.params.element);
+  if(this.params.elClass) {
+    if(Array.isArray(this.params.elClass)) {
+      this.params.elClass.forEach(e => elem.classList.add(e));
     } else {
-    elem.classList.add(this.class);
+    elem.classList.add(this.params.elClass);
     }
   }
-  if(this.id) {
-    elem.setAttribute('id', `${this.id}`);
+  if(this.params.id) {
+    elem.setAttribute('id', `${this.params.id}`);
   }
-  if(this.textContent) {
-  elem.textContent = this.textContent;
+  if(this.params.textContent) {
+  elem.textContent = `${this.params.textContent}`;
   }
-  return elem;
-};  
+  if(this.params.backgroundColor) {
+    elem.style.backgroundColor = `${this.params.backgroundColor}`;
+  }
+  this.render(elem);
+};
+
+
+Component.prototype.render = function(elem) {
+  const parent = this.params.parent;
+  parent.appendChild(elem);
+};
 
 
 
@@ -32,44 +63,67 @@ Component.prototype.createElem = function() {
 AtmComponent.prototype = Object.create(Component.prototype);
 AtmComponent.prototype.constructor = AtmComponent;
 
-function AtmComponent(html, elClass, id, name) {
-  Component.apply(this, arguments);
-  this.num = +this.name[3];
-}
+function AtmComponent(idNum) {
 
-// inherited from Component class Light
-Light.prototype = Object.create(Component.prototype);
-Light.prototype.constructor = Light;
+  this.params = {
+    element: 'div',
+    elClass: 'cash_mashine',
+    id: `atm${idNum}`,
+    parent: document.querySelector(`.atm_wrapper`),      
+  };
 
-function Light(html, elClass, id, name) {
-  Component.apply(this, arguments);
-  this.num = +this.name[5];
 };
-
-Light.prototype.switchLightRed = function(x) {
-  const light = document.getElementById(`light${x}`);
-  light.style.backgroundColor = 'red';      
-};
-
-Light.prototype.switchLightGreen = function(x) {
-  const light = document.getElementById(`light${x}`);
-  light.style.backgroundColor = 'green';      
-};
-
 
 
 // inherited from Component class Counter
 Counter.prototype = Object.create(Component.prototype);
 Counter.prototype.constructor = Counter;
 
-function Counter(html, elClass, id, name) {
-  Component.apply(this, arguments);
-  this.num = this.name[7];
-}
+function Counter(idNum) {
 
-Counter.prototype.addClient = function(x) {
-  const div = document.getElementById(`counter${x}`);    
-  div.textContent = `${+div.textContent + 1}`;    
+  this.params = {
+    element: 'div',
+    elClass: 'counter',
+    id: `counter${idNum}`,
+    parent: document.getElementById(`atm${idNum}`),    
+    textContent: '0', 
+  };
+
+};
+
+
+
+// inherited from Component class Light
+Light.prototype = Object.create(Component.prototype);
+Light.prototype.constructor = Light;
+
+function Light(idNum) {
+
+  this.params = {
+    element: 'div',
+    elClass: 'light',
+    id: `light${idNum}`,
+    parent: document.getElementById(`atm${idNum}`),    
+    backgroundColor: 'green',  
+  };
+
+};
+
+
+
+// inherited from Component class DeleteButton
+DelButComponent.prototype = Object.create(Component.prototype);
+DelButComponent.prototype.constructor = DelButComponent;
+
+function DelButComponent(idNum) {
+
+  this.params = {
+    element: 'i',
+    elClass: ['fas', 'fa-times', 'fa-2x'],
+    id: `delBut${idNum}`,
+    parent: document.getElementById(`atm${idNum}`),          
+  };
+  
 };
 
 
@@ -78,44 +132,17 @@ Counter.prototype.addClient = function(x) {
 Person.prototype = Object.create(Component.prototype);
 Person.prototype.constructor = Person;
 
-function Person() {
-  Component.apply(this, arguments);
-  this.time = Math.random() * 1000 + 3000;    
-};
-
-Person.prototype.makePerson = function() {
-  const div = document.createElement('div');
-  const field = document.querySelector('.field');
-  div.classList.add('man');
-  field.appendChild(div);           
-};
-
-Person.prototype.movePerson = function(x) {
-  const div = document.querySelector('.man');
-  const field = document.querySelector('.field');
-  const cashMashine = document.getElementById(`${x}`);
-  if(div){
-  field.removeChild(div);
-  cashMashine.appendChild(div);      
-  div.classList.add(`manInAtm`);
-  div.classList.remove('man');
-  }      
-};
-
-Person.prototype.removePerson = function(x) {
-  const cashMashine = document.getElementById(`${x}`);
-  const div = cashMashine.querySelector(`.manInAtm`);
-  if(div) {      
-    cashMashine.removeChild(div);
-  }      
+function Person(idNum) {
+  
+  this.time = Math.random() * 1000 + 3000;
+  this.params = {
+    element: 'div',
+    elClass: 'man',
+    id: `person${idNum}`,
+    parent: document.querySelector('.field'),   
+  };    
 };
 
 
-// inherited from Component class DeleteButton
-DelButComponent.prototype = Object.create(Component.prototype);
-DelButComponent.prototype.constructor = DelButComponent;
 
-function DelButComponent() {
-  Component.apply(this, arguments);
-  this.num = this.name[15];   
-}
+

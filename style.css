@@ -29,6 +29,7 @@
   text-align: center;
   margin-top: 115px;
   margin-bottom: 50px;
+  white-space: nowrap;
 }
 
 .fas{
@@ -96,6 +97,11 @@
   border: 1px solid #ffffff; 
   color: white;
   line-height: 20px; 
+}
+
+.p_info{
+  margin: 5px auto;
+  color: rgba(0, 0, 0, 0.5)
 }
 
 

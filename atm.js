@@ -5,11 +5,20 @@ Atm.prototype.constructor = Atm;
 function Atm(name) {
   EventEmitter.call(this); 
   this.name = name;
-  this.num = +this.name[3];
+  this.num = +this.name.split('').slice(3, this.name.length).join('');
   this.served = 0;
   this.isfree = true;
   this.comandToStop = false;
-  this.confirmTostop = false;        
+  this.confirmTostop = false;
+  this.OnService = [];        
+};
+
+Atm.prototype.addOnService = function(data) {      
+  this.OnService.push(data);                  
+};
+
+Atm.prototype.deleteOnService = function() {      
+  return this.OnService.shift();                  
 };
 
 Atm.prototype.addServedClient = function() {      
@@ -35,8 +44,7 @@ Atm.prototype.changeStatus = function(time, obj) {
         console.log(`Confirm to stop from ${this.name}`)
         return;
       }
-      obj.checkStatus();
-      console.log(obj === this); 
+      obj.checkStatus();      
     }.bind(this), time);
   } else {
     if(this.isfree) {

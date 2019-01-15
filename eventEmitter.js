@@ -10,7 +10,7 @@ EventEmitter.prototype.on  = function(event, func) {
   };
 
   EventEmitter.prototype.unsubscribe = function(event) {
-    this.eventTable = Object.keys(this.eventTable).filter(event => event !== event);
+    this.eventTable = Object.keys(this.eventTable).filter(event => event !== eventt);
   };
 
   EventEmitter.prototype.emit = function(event, data) {
