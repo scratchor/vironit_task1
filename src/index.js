@@ -1,3 +1,18 @@
+
+import style from './css/style.css';
+import Component from './components/componentClass.js';
+import AtmComponent from './components/atmComponent.js';
+import Counter from './components/counterComponent.js';
+import DelButComponent from './components/delButComponent.js';
+import Light from './components/lightConponent.js';
+import Person from './components/personComponent.js';
+import EventEmitter from './core/eventEmitter.js';
+import Atm from './core/atm.js';
+import Queue from './core/queue.js';
+
+
+
+
 const emitter = new EventEmitter();
 
 const queue1 = new Queue();
@@ -13,6 +28,8 @@ function ready() {
   controller.addOnDelete();
   controller.addOnInput();
   controller.addInputListener();
+  controller.promiseOverload();
+  controller.promiseFreeQueue();
   controller.drawPerson();  
 }
 
@@ -25,6 +42,8 @@ const controller = {
     [],
     [],
   ],
+  overloadNum: 0,
+  freeQueue1: true,
   personNum: 1,
   nameNum: 1,
   starTime: 2,
@@ -44,6 +63,7 @@ const controller = {
     obj.on('free', () => {
         const person = queue1.getClient();
         if(person) {
+          controller.overloadNum--;
           obj.addOnService(person);
           obj.changeStatus(undefined, obj);  
           setTimeout(function() {                
@@ -54,6 +74,13 @@ const controller = {
           obj.addServedClient();          
           obj.changeStatus(person.time, obj);          
           }, 1000);     
+        } else {
+          controller.freeQueue1 = true;
+          setTimeout(() => {
+            if(controller.freeQueue1 === true) {
+              queue1.emit('free');
+            }
+          }, 4000);
         };     
     });
     obj.on('busy', () => setTimeout(function() {
@@ -67,9 +94,14 @@ const controller = {
       let person = new Person(controller.personNum);
       controller.personNum++
       queue1.addClient(person);
-      //person.makePerson();
+      controller.overloadNum++;
+      controller.freeQueue1 = false;
       person.updateParams();         
       queue1.emit('add');
+      if(controller.overloadNum >= 10) {
+        controller.overloadNum = 0;
+        queue1.emit('overload');        
+      };
       setTimeout(() => {
         controller.drawPerson();
       }, 500); 
@@ -102,12 +134,17 @@ const controller = {
 
     addOnDelete: function() {
       emitter.on('delAtm', (x) => {
-        console.log(`Delete ATM${x}`);
-        const idNum = +event.currentTarget.id.split('').slice(3, event.currentTarget.id.length).join('');
+        if(!x) {
+          var idNum = controller.atms[controller.atms.length - 1].num;
+          console.log(`Delete ATM${idNum}`);
+        } else {          
+          var idNum = +event.currentTarget.id.split('').slice(3, event.currentTarget.id.length).join('');
+          console.log(`Delete ATM${x}`);
+        }       
         let cashMasine = document.getElementById(`atm${idNum}`);
         cashMasine.removeEventListener('click', controller.deleteListenerHandler);
         const atm = controller.atms.filter(e => e.name === `atm${idNum}`)[0];
-        if(atm.isfree && atm.served === 0) {
+        if(atm.isfree) {
           console.log(`ATM${idNum} was free and quickly deleted`)
           controller.deleteCashMashineFromDom(idNum);
           controller.deleteCashMashineFromLogic(idNum);
@@ -183,4 +220,18 @@ const controller = {
       controller.atmComponents[2].splice(i, 1);
       controller.atmComponents[3].splice(i, 1);
     },
+
+    promiseOverload: function() {
+      const promiseOverload = new Promise((resolve, reject) => {
+        queue1.on('overload', () => resolve(emitter.emit('createAtm')));
+      });
+    },
+
+    promiseFreeQueue: function() {
+      const promiseFreeQueue = new Promise((resolve, reject) => {
+        queue1.on('free', () => resolve(emitter.emit('delAtm', null)));
+      });
+    },
+
+
 };

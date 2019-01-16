@@ -1,4 +1,4 @@
-function EventEmitter() {
+export default function EventEmitter() {
   
   this.eventTable = {};
   
@@ -10,7 +10,7 @@ EventEmitter.prototype.on  = function(event, func) {
   };
 
   EventEmitter.prototype.unsubscribe = function(event) {
-    this.eventTable = Object.keys(this.eventTable).filter(event => event !== eventt);
+    this.eventTable = Object.keys(this.eventTable).filter(e => e !== event);
   };
 
   EventEmitter.prototype.emit = function(event, data) {
@@ -19,6 +19,8 @@ EventEmitter.prototype.on  = function(event, func) {
     }
   };
 
+
+ 
 
 
 

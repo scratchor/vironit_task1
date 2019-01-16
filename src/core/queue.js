@@ -1,7 +1,9 @@
+import EventEmitter from './eventEmitter.js';
+
 Queue.prototype = Object.create(EventEmitter.prototype);
 Queue.prototype.constructor = Queue;
 
-function Queue() {
+export default function Queue() {
   EventEmitter.call(this);
   this.queue = [];  
 }
