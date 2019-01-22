@@ -1,58 +1,56 @@
-import EventEmitter from './eventEmitter.js';
+import EventEmitter from './eventEmitter.js'
 
-Atm.prototype = Object.create(EventEmitter.prototype);
-Atm.prototype.constructor = Atm;
+Atm.prototype = Object.create(EventEmitter.prototype)
+Atm.prototype.constructor = Atm
 
-export default function Atm(name) {
-  EventEmitter.call(this); 
-  this.name = name;
-  this.num = +this.name.split('').slice(3, this.name.length).join('');
-  this.served = 0;
-  this.isfree = true;
-  this.comandToStop = false;
-  this.confirmTostop = false;
-  this.OnService = [];        
+export default function Atm (name) {
+  EventEmitter.call(this)
+  this.name = name
+  this.num = +this.name.split('').slice(3, this.name.length).join('')
+  this.served = 0
+  this.isfree = true
+  this.comandToStop = false
+  this.confirmTostop = false
+  this.OnService = []
 };
 
-Atm.prototype.addOnService = function(data) {      
-  this.OnService.push(data);                  
-};
+Atm.prototype.addOnService = function (data) {
+  this.OnService.push(data)
+}
 
-Atm.prototype.deleteOnService = function() {      
-  return this.OnService.shift();                  
-};
+Atm.prototype.deleteOnService = function () {
+  return this.OnService.shift()
+}
 
-Atm.prototype.addServedClient = function() {      
-  this.served++;                  
-};
+Atm.prototype.addServedClient = function () {
+  this.served++
+}
 
+Atm.prototype.checkStatus = function () {
+  this.isfree ? this.emit('free') : this.emit('busy')
+}
 
-Atm.prototype.checkStatus = function() {      
-    this.isfree ? this.emit('free') : this.emit('busy');                   
-};
-
-
-Atm.prototype.changeStatus = function(time, obj) {
-  if(time) {
-    setTimeout(function() {
-      if(this.isfree) {
-        this.isfree = false;
+Atm.prototype.changeStatus = function (time, obj) {
+  if (time) {
+    setTimeout(function () {
+      if (this.isfree) {
+        this.isfree = false
       } else {
-        this.isfree = true;
+        this.isfree = true
       };
-      if(this.comandToStop) {
-        this.confirmTostop = true;
+      if (this.comandToStop) {
+        this.confirmTostop = true
         console.log(`Confirm to stop from ${this.name}`)
-        return;
-      }
-      obj.checkStatus();      
-    }.bind(this), time);
+        return
+      };
+      obj.checkStatus()
+    }.bind(this), time)
   } else {
-    if(this.isfree) {
-      this.isfree = false;
+    if (this.isfree) {
+      this.isfree = false
     } else {
-      this.isfree = true;
+      this.isfree = true
     }
-    obj.checkStatus(); 
-  }                      
-};
+    obj.checkStatus()
+  }
+}
