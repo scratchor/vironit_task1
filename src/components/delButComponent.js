@@ -11,4 +11,15 @@ export default function DelButComponent (idNum) {
     id: `delBut${idNum}`,
     parent: document.getElementById(`atm${idNum}`)
   }
+
+  Component.call(this);
+  this.element.addEventListener('click', this.handleClick.bind(this));
+  this.click = false
+};
+
+DelButComponent.prototype.handleClick = function () {
+  if (!this.click) {
+    this.click = true
+    this.emit('delAtm')
+  }
 };

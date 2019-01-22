@@ -12,4 +12,6 @@ export default function Light (idNum) {
     parent: document.getElementById(`atm${idNum}`),
     backgroundColor: 'green'
   }
+
+  Component.call(this);
 };

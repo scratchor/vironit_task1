@@ -1,21 +1,20 @@
 
+import EventEmitter from '../core/eventEmitter.js'
+
+Component.prototype = Object.create(EventEmitter.prototype);
+Component.prototype.constructor = Component;
+
 // class Component
-export default function Component (elClass, id, parentId, textContent, backColor) {
-  this.params = {
-    element: 'div',
-    elClass: elClass,
-    previousClass: this.params.elClass,
-    id: id,
-    parent: document.getElementById(`${parentId}`),
-    textContent: textContent,
-    backgroundColor: backColor
-  }
-}
+export default function Component () {
+  EventEmitter.call(this);
+
+  this.element = this.updateParams();
+};
 
 Component.prototype.updateParams = function (newParams) {
   Object.assign(this.params, newParams)
-  this.makeElem()
-}
+  return this.makeElem()
+};
 
 Component.prototype.makeElem = function () {
   let elem = document.getElementById(`${this.params.id}`)
@@ -44,9 +43,10 @@ Component.prototype.makeElem = function () {
     elem.style.backgroundColor = `${this.params.backgroundColor}`
   }
   this.render(elem)
-}
+  return elem;
+};
 
 Component.prototype.render = function (elem) {
   const parent = this.params.parent
   parent.appendChild(elem)
-}
+};

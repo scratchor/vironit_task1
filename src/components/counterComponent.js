@@ -12,4 +12,6 @@ export default function Counter (idNum) {
     parent: document.getElementById(`atm${idNum}`),
     textContent: '0'
   }
+
+  Component.call(this);
 };

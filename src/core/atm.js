@@ -3,7 +3,7 @@ import EventEmitter from './eventEmitter.js'
 Atm.prototype = Object.create(EventEmitter.prototype)
 Atm.prototype.constructor = Atm
 
-export default function Atm (name) {
+export default function Atm (name, ref) {
   EventEmitter.call(this)
   this.name = name
   this.num = +this.name.split('').slice(3, this.name.length).join('')
@@ -12,6 +12,7 @@ export default function Atm (name) {
   this.comandToStop = false
   this.confirmTostop = false
   this.OnService = []
+  this.ref = ref
 };
 
 Atm.prototype.addOnService = function (data) {
