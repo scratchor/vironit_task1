@@ -1,3 +1,5 @@
+// Почему отключено правило для ";" в eslint?
+// Надо добавлять комментарии к коду, без них его бывает сложно понять
 
 import './css/style.css'
 import AtmComponent from './components/atmComponent.js'
@@ -33,8 +35,10 @@ const controller = {
   starTime: 2,
   endTime: 4,
 
+  // Что такое "obj"?
   addAtmsEvents: function (obj) {
     obj.on('free', () => {
+      // Лучше const
       let person = obj.deleteOnService()
       if (person) {
         person.updateParams({ element: null })
@@ -46,7 +50,9 @@ const controller = {
     obj.on('free', () => {
       const person = queue1.getClient()
       if (person) {
+        // Лучше использовать null
         obj.changeStatus(undefined, obj)
+        // Лучше использовать if
         controller.overloadNum <= 0 ? 0 : controller.overloadNum--
         obj.addOnService(person)
         setTimeout(function () {
@@ -72,6 +78,7 @@ const controller = {
 
   drawPerson: function () {
     setTimeout(() => {
+      // Лучше const
       let person = new Person(controller.personNum)
       controller.personNum++
       queue1.addClient(person)
@@ -127,6 +134,7 @@ const controller = {
   },
 
   createCashMashine: function () {
+    // Название переменной
     const x = controller.nameNum
     controller.nameNum++
     const atmComponent = new AtmComponent(x)
@@ -134,12 +142,14 @@ const controller = {
     controller.addAtmsEvents(atmComponent.atm)
   },
 
+  // Надо возвращать Promise (return)
   promiseOverload: function () {
     new Promise((resolve) => {
       queue1.on('overload', () => resolve(emitter.emit('createAtm')))
     })
   },
 
+  // Надо возвращать Promise (return)
   promiseFreeQueue: function () {
     new Promise((resolve) => {
       queue1.on('free', () => {
