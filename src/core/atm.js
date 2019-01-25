@@ -6,7 +6,7 @@ Atm.prototype.constructor = Atm
 export default function Atm (name, ref) {
   EventEmitter.call(this)
   this.name = name
-  // Лучше передавать num отвельно
+  // Лучше передавать num отдельно
   this.num = +this.name.split('').slice(3, this.name.length).join('')
   this.served = 0
   this.isfree = true
