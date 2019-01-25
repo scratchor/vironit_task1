@@ -1,4 +1,5 @@
 // Почему отключено правило для ";" в eslint?
+// Надо добавлять комментарии к коду, без них его бывает сложно понять
 
 import './css/style.css'
 import AtmComponent from './components/atmComponent.js'
