@@ -21,5 +21,5 @@ Queue.prototype.getClient = function () {
 }
 
 Queue.prototype.checkClient = function () {
-  return this.queue[0]
+  return this.queue[0] // лучше заменить на "return !!this.queue.length"
 }
