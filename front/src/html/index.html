@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+<body>
+    <div class="field">
+        <div class="buttons">
+            <p class="p_info">Цифра 1 соотвествует 1 секунде</p>
+            <input type="text" class="input1" size ='12'>
+            <input type="text" class="input2" size ='12' autofocus>
+            <button class="buttonCreateAtm">Create ATM</button>
+        </div>
+        <div class="atm_wrapper"></div> 
+        
+        <button onclick="myFunction1()">change hash</button>
+        <button onclick="myFunction2()">change hash2</button>
+        <button onclick="myFunction3()">change history</button>
+
+<script>
+function myFunction1() {
+    location.hash = "#part1";
+}
+
+function myFunction2() {
+    location.hash = "#part5";
+}
+
+window.addEventListener('hashchange', myfunc1)
+window.addEventListener('popstate', myfunc2)
+
+function myfunc1 () {
+    alert('hash change')
+}
+
+function myfunc2 () {
+    console.log(history.state)
+    alert('history change')
+}
+
+function myFunction3() {
+    window.history.pushState('data to be passed', 'Title of the page', '/test');
+}
+
+
+</script>
+    </div>
+</body>
+</html>

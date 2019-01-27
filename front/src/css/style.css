@@ -1,0 +1,108 @@
+.field{
+  position: relative;
+}
+
+.buttonCreateAtm{
+  width: 100px;
+  height: 50px;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+  padding: .5em 2em;
+  border: 2px solid;
+  border-radius: 1px;
+  transition: 0.2s;
+  background-color: grey;
+  display: block;
+  margin: 10px auto;
+}
+
+.buttonCreateAtm:hover { background: rgb(0, 0, 0); }
+.buttonCreateAtm:active { background: black; }
+
+.buttons{
+  text-align: center;
+ }
+
+.atm_wrapper{
+  text-align: center;
+  margin-top: 115px;
+  margin-bottom: 50px;
+  white-space: nowrap;
+}
+
+.fas{
+  position: relative;
+  top: -100px;
+  left: 3px;
+  transition: 0.2s;
+  background-color: white;
+  color: rgb(126, 114, 114);
+}
+
+.fas:hover { color: rgb(0, 0, 0); }
+.fas:active { color: rgb(0, 0, 0); }
+
+.cash_mashine{
+  background-color: rgb(126, 114, 114);;
+  height: 100px;
+  width: 100px;
+  border: 2px solid black;
+  display: inline-block;
+  margin: 0 10px;
+  position: relative;  
+}
+
+.light{
+  background-color: green;
+  border-radius: 200px;
+  border: 2px solid black;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: -65px;
+  left: 25px;
+}
+
+.man{
+  border: 30px solid transparent;
+  border-bottom: 43px solid #186318;
+  display: block;
+  width: 0;
+  height: 0;
+  margin: auto;
+}
+
+.manInAtm{
+  border: 30px solid transparent;
+  border-bottom: 43px solid #186318;
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 75px;
+  left: 20px;
+}
+
+.counter{
+  width: 40px;
+  height: 20px;
+  background-color: black;
+  z-index: 2;
+  text-align: center;
+  position: relative;
+  top: 40%;
+  left: 30%;
+  border: 1px solid #ffffff; 
+  color: white;
+  line-height: 20px; 
+}
+
+.p_info{
+  margin: 5px auto;
+  color: rgba(0, 0, 0, 0.5)
+}
+
+
+
