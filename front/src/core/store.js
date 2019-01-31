@@ -21,7 +21,8 @@ function Store (emitter, queue) {
     endTime: 4,
     update: true,
     loadAtmsId: [],
-    loadAtmsCounter: []
+    loadAtmsCounter: [],
+    greenCardAtm: undefined
   }
 
   this.emitter = emitter
@@ -70,15 +71,13 @@ function Store (emitter, queue) {
     }
     const id = this.observerList.nameNum
     this.observerList.nameNum++
-    const atmComponent = new AtmComponent(id)
+    new AtmComponent(id)
     this.emit('dataTransfer', 'post', `atm${id}`, 'Failed to create new atm in database')
-    atmComponent.atm.addAtmsEvents()
   })
   this.on('createLoadAtm', (i) => {
     const id = this.observerList.loadAtmsId[i]
     const counter = this.observerList.loadAtmsCounter[i]
-    const atmComponent = new AtmComponent(id, counter)
-    atmComponent.atm.addAtmsEvents()
+    new AtmComponent(id, counter)
     console.log(this)
   })
   this.on('input', (obj) => {
@@ -102,9 +101,13 @@ function Store (emitter, queue) {
       console.log(this.observerList.router)
     } else {
       console.log(this)
-      const atmId = window.location.hash.match(/atm\d+/g)[0]
-      const counterNum = this.observerList.AtmComponent.find(e => e.element.id === atmId).atm.served
-      new StatRoute(atmId, counterNum)
+      const idNum = +window.location.hash.match(/\d+/g)[0]
+      let atmComponent = this.observerList.AtmComponent.find(e => e.atm.num === idNum)
+      const counterNum = atmComponent.atm.served
+      const state = atmComponent.atm.isfree
+      new StatRoute(idNum, counterNum, state)
+      atmComponent = this.observerList.AtmComponent.find(e => e.atm.num === idNum)
+      atmComponent.greenCard()
       console.log(this.observerList.router)
       this.changeUpdateToFalse()
     }
@@ -121,6 +124,14 @@ Store.prototype.add = function (data, val) {
   } else {
     this.observerList[data] = val
   }
+}
+
+Store.prototype.replaceAtmComponent = function (obj) {
+  const atmComponent = this.observerList.AtmComponent.find(e => e.element.id === obj.element.id)
+  const i = this.observerList.AtmComponent.indexOf(atmComponent)
+  obj.atm = atmComponent.atm
+  obj.atm.ref = obj.atmParent
+  this.observerList.AtmComponent.splice(i, 1, obj)
 }
 
 Store.prototype.count = function (obj) {

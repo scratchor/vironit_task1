@@ -13,15 +13,8 @@ export default function Component () {
   this.element = this.updateParams()
 }
 
-/* Component.prototype.updateParams = function (newParams) {
-  if (!controller.router || controller.router.constructor.name !== 'StatRoute') {
-    Object.assign(this.params, newParams)
-    return this.makeElem()
-  }
-} */
-
 Component.prototype.updateParams = function (newParams) {
-  if (this.store.observerList.update) {
+  if (this.store.observerList.update || this.greenCard) {
     Object.assign(this.params, newParams)
     return this.makeElem()
   }

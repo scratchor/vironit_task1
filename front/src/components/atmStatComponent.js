@@ -1,14 +1,12 @@
 import Component from './componentClass.js'
 import Counter from './counterComponent.js'
 import Light from './lightConponent.js'
-import Atm from '../core/atm.js'
-import controller from '../index.js'
 
 // inherited from Component class AtmComponent
 AtmStatComponent.prototype = Object.create(Component.prototype)
 AtmStatComponent.prototype.constructor = AtmStatComponent
 
-export default function AtmStatComponent (idNum, counterNum) {
+export default function AtmStatComponent (idNum, counterNum, state) {
   this.params = {
     element: 'div',
     elClass: 'cash_mashine',
@@ -19,16 +17,22 @@ export default function AtmStatComponent (idNum, counterNum) {
   Component.call(this);
 
   this.element.addEventListener('click', this.openMainRoute.bind(this))
-
+  this.atm = undefined
   this.atmParent = this
-  this.counter = new Counter(idNum, counterNum);
-  this.light = new Light(idNum)
+  this.counter = new Counter(idNum, counterNum)
+  this.light = new Light(idNum, state)
 
   this.on('openMainRoute', () => {
-    location.hash = ''
+    window.location.hash = ''
   })
+  this.store.replaceAtmComponent(this)
 };
 
 AtmStatComponent.prototype.openMainRoute = function () {
   this.emit('openMainRoute')
+}
+
+AtmStatComponent.prototype.greenCard = function () {
+  this.counter.greenCard ? this.counter.greenCard = false : this.counter.greenCard = true
+  this.light.greenCard ? this.light.greenCard = false : this.light.greenCard = true
 }

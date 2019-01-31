@@ -12,6 +12,6 @@ export default function Counter (idNum, counterNum) {
     parent: document.getElementById(`atm${idNum}`),
     textContent: `${counterNum || 0}`
   }
-
+  this.greenCard = false
   Component.call(this);
 };

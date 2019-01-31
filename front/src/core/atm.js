@@ -14,6 +14,8 @@ export default function Atm (name, ref, served) {
   this.OnService = []
   this.ref = ref
   this.manInAtm = false
+
+  this.addAtmsEvents()
 };
 
 Atm.prototype.addOnService = function (data) {
