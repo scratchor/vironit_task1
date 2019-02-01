@@ -10,8 +10,8 @@ const AtmSchema = new Schema({
     type: Number,
     required: [true, 'Counter field is required']
   }
-});
+})
 
-const Atm = mongoose.model('atm', AtmSchema);
+const Atm = mongoose.model('atm', AtmSchema)
 
-module.exports = Atm;
+module.exports = Atm

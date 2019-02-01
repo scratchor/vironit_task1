@@ -5,8 +5,9 @@ import NumberComponent from '../components/numberComponent'
 import AtmWrapper from '../components/atmWrapperComponent'
 import store from '../index'
 
-RouterConstructor.prototype = Object.create(Component.prototype);
-RouterConstructor.prototype.constructor = RouterConstructor;
+// inherited from Component class RouterConstructor - class designed for creating Routers
+RouterConstructor.prototype = Object.create(Component.prototype)
+RouterConstructor.prototype.constructor = RouterConstructor
 
 export default function RouterConstructor () {
   this.params = {
@@ -14,7 +15,7 @@ export default function RouterConstructor () {
     elClass: 'field',
     id: null,
     parent: document.body
-  };
+  }
 
   Component.call(this)
   store.add(this)

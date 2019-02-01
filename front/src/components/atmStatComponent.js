@@ -2,7 +2,7 @@ import Component from './componentClass.js'
 import Counter from './counterComponent.js'
 import Light from './lightConponent.js'
 
-// inherited from Component class AtmComponent
+// inherited from Component class AtmStatComponent - class designed for creating atm in statRoute
 AtmStatComponent.prototype = Object.create(Component.prototype)
 AtmStatComponent.prototype.constructor = AtmStatComponent
 
@@ -12,9 +12,9 @@ export default function AtmStatComponent (idNum, counterNum, state) {
     elClass: 'cash_mashine',
     id: `atm${idNum}`,
     parent: document.querySelector(`.atm_wrapper`)
-  };
+  }
 
-  Component.call(this);
+  Component.call(this)
 
   this.element.addEventListener('click', this.openMainRoute.bind(this))
   this.atm = undefined

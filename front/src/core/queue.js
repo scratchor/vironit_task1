@@ -7,6 +7,7 @@ export default function Queue () {
   EventEmitter.call(this)
   this.queue = []
 
+  // queue subscription
   this.on('getClient', () => {
     const person = this.getClient()
     return person
@@ -26,17 +27,17 @@ Queue.prototype.getClient = function () {
 }
 
 Queue.prototype.checkClient = function () {
-  return this.queue[0]
+  return !!this.queue.length
 }
 
 Queue.prototype.promiseOverload = function (store) {
-  new Promise((resolve) => {
+  return new Promise((resolve) => {
     this.on('overload', () => resolve(store.emit('createAtm')))
   })
 }
 
 Queue.prototype.promiseFreeQueue = function (store) {
-  new Promise((resolve) => {
+  return new Promise((resolve) => {
     this.on('free', () => {
       const atmComponent = store.observerList.AtmComponent[store.observerList.AtmComponent.length - 1]
       if (atmComponent) {

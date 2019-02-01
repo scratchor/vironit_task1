@@ -13,5 +13,5 @@ export default function Counter (idNum, counterNum) {
     textContent: `${counterNum || 0}`
   }
   this.greenCard = false
-  Component.call(this);
+  Component.call(this)
 };

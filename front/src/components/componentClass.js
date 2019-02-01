@@ -2,10 +2,10 @@
 import EventEmitter from '../core/eventEmitter.js'
 import store from '../index'
 
-Component.prototype = Object.create(EventEmitter.prototype);
-Component.prototype.constructor = Component;
+Component.prototype = Object.create(EventEmitter.prototype)
+Component.prototype.constructor = Component
 
-// class Component
+// class Component - is main class of all components
 export default function Component () {
   EventEmitter.call(this)
 
@@ -52,9 +52,9 @@ Component.prototype.makeElem = function () {
   this.render(elem)
   this.element = elem
   return elem
-};
+}
 
 Component.prototype.render = function (elem) {
   const parent = this.params.parent
   parent.appendChild(elem)
-};
+}

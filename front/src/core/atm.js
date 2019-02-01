@@ -3,10 +3,10 @@ import EventEmitter from './eventEmitter.js'
 Atm.prototype = Object.create(EventEmitter.prototype)
 Atm.prototype.constructor = Atm
 
-export default function Atm (name, ref, served) {
+export default function Atm (name, ref, served, num) {
   EventEmitter.call(this)
   this.name = name
-  this.num = +this.name.split('').slice(3, this.name.length).join('')
+  this.num = num
   this.served = served || 0
   this.isfree = true
   this.comandToStop = false
@@ -15,6 +15,7 @@ export default function Atm (name, ref, served) {
   this.ref = ref
   this.manInAtm = false
 
+  // atm subscription
   this.addAtmsEvents()
 };
 
@@ -24,9 +25,9 @@ Atm.prototype.addOnService = function (data) {
 
 Atm.prototype.changeManInAtm = function () {
   if (this.manInAtm) {
-    this.manInAtm = false;
+    this.manInAtm = false
   } else {
-    this.manInAtm = true;
+    this.manInAtm = true
   }
 }
 
@@ -47,7 +48,11 @@ Atm.prototype.getServedClient = function () {
 }
 
 Atm.prototype.checkStatus = function () {
-  this.isfree ? this.emit('free') : this.emit('busy')
+  if (this.isfree) {
+    this.emit('free')
+  } else {
+    this.emit('busy')
+  }
 }
 
 Atm.prototype.changeStatus = function (time, obj) {
@@ -75,9 +80,10 @@ Atm.prototype.changeStatus = function (time, obj) {
   }
 }
 
+// atm main logic
 Atm.prototype.addAtmsEvents = function () {
   this.on('free', () => {
-    let person = this.deleteOnService()
+    const person = this.deleteOnService()
     if (person) {
       person.updateParams({ element: null })
       this.changeManInAtm()
@@ -89,8 +95,12 @@ Atm.prototype.addAtmsEvents = function () {
   this.on('free', () => {
     const person = this.ref.store.emit('getClient')
     if (person) {
-      this.changeStatus(undefined, this)
-      this.ref.store.observerList.overloadNum <= 0 ? 0 : this.ref.store.observerList.overloadNum--
+      this.changeStatus(null, this)
+      if (this.ref.store.observerList.overloadNum <= 0) {
+        this.ref.store.observerList.overloadNum = 0
+      } else {
+        this.ref.store.observerList.overloadNum--
+      }
       this.addOnService(person)
       setTimeout(function () {
         person.updateParams({ elClass: 'manInAtm', parent: document.getElementById(`atm${this.num}`) })

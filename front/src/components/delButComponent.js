@@ -16,7 +16,7 @@ export default function DelButComponent (idNum) {
 
   Component.call(this)
   if (this.store.observerList.update) {
-    this.element.addEventListener('click', this.handleClick.bind(this));
+    this.element.addEventListener('click', this.handleClick.bind(this))
   }
   this.click = false
 }

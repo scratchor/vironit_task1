@@ -13,5 +13,5 @@ export default function Light (idNum, state) {
     backgroundColor: `${state || state === undefined ? 'green' : 'red'}`
   }
   this.greenCard = false
-  Component.call(this);
+  Component.call(this)
 };

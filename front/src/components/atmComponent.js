@@ -23,11 +23,11 @@ export default function AtmComponent (idNum, counterNum) {
     this.element.addEventListener('click', this.openAtm.bind(this))
   }
   this.atmParent = this
-  this.atm = new Atm(`atm${idNum}`, this.atmParent, counterNum)
+  this.atm = new Atm(`atm${idNum}`, this.atmParent, counterNum, idNum)
 
-  this.delBut = new DelButComponent(idNum);
-  this.counter = new Counter(idNum, counterNum);
-  this.light = new Light(idNum);
+  this.delBut = new DelButComponent(idNum)
+  this.counter = new Counter(idNum, counterNum)
+  this.light = new Light(idNum)
 
   this.on('delAtm', (i) => {
     console.log(`Delete ATM${idNum}`)

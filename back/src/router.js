@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const ValidationError = require('./error')
 const Atm = require('./mongo/atmSchema')
 
@@ -52,7 +52,7 @@ router.get('/atm', (req, res, next) => {
   Atm.find({}, null, { sort: 'atmID' })
     .then((atms) => {
       if (atms) {
-        console.log(atms);
+        console.log(atms)
         res.send(atms)
       } else {
         throw new ValidationError('Sorry, no atm found!')
@@ -100,4 +100,4 @@ router.delete('/atm', (req, res, next) => {
     .catch(next)
 })
 
-module.exports = router;
+module.exports = router

@@ -6,4 +6,4 @@ function connect () {
     .catch(err => console.log(err + err.stack))
 }
 
-module.exports = connect;
+module.exports = connect

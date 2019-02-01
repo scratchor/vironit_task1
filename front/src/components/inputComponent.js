@@ -10,12 +10,12 @@ export default function InputComponent (num) {
     id: null,
     type: 'text',
     parent: document.querySelector(`.buttons`)
-  };
+  }
 
-  Component.call(this);
+  Component.call(this)
 
   if (this.store.observerList.update) {
-    this.element.addEventListener('input', this.handleClick.bind(this));
+    this.element.addEventListener('input', this.handleClick.bind(this))
   }
 }
 

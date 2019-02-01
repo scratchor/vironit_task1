@@ -12,5 +12,5 @@ export default function Person (idNum) {
     id: `person${idNum}`,
     parent: document.querySelector('.field')
   }
-  Component.call(this);
+  Component.call(this)
 };

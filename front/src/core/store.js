@@ -5,6 +5,7 @@ import PersonUp from '../components/personUpComponent'
 import MainRouter from '../routerComponents/mainRouter'
 import StatRoute from '../routerComponents/statRouter'
 
+// store is global storage
 Store.prototype = Object.create(EventEmitter.prototype)
 Store.prototype.constructor = Store
 
@@ -28,6 +29,7 @@ function Store (emitter, queue) {
   this.emitter = emitter
   this.queue = queue
 
+  // store subscription
   this.on('delAtm', (idNum) => {
     const сomponent = this.observerList.AtmComponent.find(e => e.atm.num === idNum)
     const i = this.observerList.AtmComponent.indexOf(сomponent)
@@ -51,7 +53,7 @@ function Store (emitter, queue) {
       atmComponent.atm = e.atm
       atmComponent.atm.ref = atmComponent.atmParent
       if (!e.atm.isfree && e.atm.manInAtm) {
-        const person1 = e.atm.deleteOnService();
+        const person1 = e.atm.deleteOnService()
         const person = new PersonUp(person1.time, person1.params)
         atmComponent.light.updateParams({ backgroundColor: 'red' })
         person.updateParams({ elClass: 'manInAtm', parent: document.getElementById(`atm${e.atm.num}`) })
@@ -78,7 +80,6 @@ function Store (emitter, queue) {
     const id = this.observerList.loadAtmsId[i]
     const counter = this.observerList.loadAtmsCounter[i]
     new AtmComponent(id, counter)
-    console.log(this)
   })
   this.on('input', (obj) => {
     const inputNum = obj.params.elClass.match(/\d+/g)[0]
@@ -95,12 +96,10 @@ function Store (emitter, queue) {
     this.changeUpdateToTrue()
     this.observerList.router.updateParams({ element: null })
     if (window.location.hash === '') {
-      console.log(this)
       new MainRouter()
       this.emit('drawExistingAtm')
       console.log(this.observerList.router)
     } else {
-      console.log(this)
       const idNum = +window.location.hash.match(/\d+/g)[0]
       let atmComponent = this.observerList.AtmComponent.find(e => e.atm.num === idNum)
       const counterNum = atmComponent.atm.served
@@ -114,6 +113,7 @@ function Store (emitter, queue) {
   })
 }
 
+// store methods
 Store.prototype.add = function (data, val) {
   if (data instanceof Object) {
     if (data.constructor.name === 'AtmComponent') {
@@ -136,7 +136,7 @@ Store.prototype.replaceAtmComponent = function (obj) {
 
 Store.prototype.count = function (obj) {
   return this.observerList[obj].length
-};
+}
 
 Store.prototype.changeUpdateToTrue = function () {
   this.observerList.update = true

@@ -12,5 +12,5 @@ export default function NumberComponent () {
     textContent: 'Цифра 1 соотвествует 1 секунде'
   }
 
-  Component.call(this);
+  Component.call(this)
 }

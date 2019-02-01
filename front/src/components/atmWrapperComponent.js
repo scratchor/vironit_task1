@@ -12,5 +12,5 @@ export default function AtmWrapper () {
     parent: document.querySelector('.field')
   }
 
-  Component.call(this);
+  Component.call(this)
 }
